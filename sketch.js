@@ -30,7 +30,7 @@ function setup(){
 createCanvas(800,300);
   fundo = createSprite(00, 150);
   fundo.addImage('fundo_image', fundo_image);
-  jogador = createSprite(200, 150, 20, 50);
+  jogador = createSprite(50, 50, 20, 50);
   jogador.addAnimation('jogador_image', jogador_image);
   jogador.addImage('player_die', jogador_morte);
   jogador.scale = 0.06;
@@ -45,17 +45,19 @@ createCanvas(800,300);
 function draw() {
   background(0);
   if (etapaJogo === 'JOGAR') {
+    if(pontuacao/10){
+      camera.position.x = camera.position.x -4
+    }
     obstaculos();
     jogador.y = mouseY;
-    fundo.velocityX = -(4 + pontuacao/100);
-    camera.position.x = jogador.x;
-    camera.position.y = jogador.y;
+    jogador.x = camera.position.x - 150;
+    //fundo.velocityX = -(4 + pontuacao/100);
     gameOver.visible = false;  
-    
+
 //pontuação
   pontuacao = pontuacao + (Math.round(frameRate()/60));
     
-  if(fundo.x < -100) {
+  if(fundo.x < 0) {
     fundo.x = fundo.width/4;
   }
   if(keyDown('space') && etapaJogo === 'JOGAR') {
@@ -108,18 +110,18 @@ function draw() {
   }
   fill('white');
   textSize(20);
-  text('Score: '+ pontuacao, camera.position.x - 200, camera.position.y);
+  text('Score: '+ pontuacao, camera.position.x - 250, camera.position.y - 50);
 }
 function obstaculos() {
-  if(frameCount% 200 === 0) {
+  if(frameCount% 50 === 0) {
     sorteio = Math.round(random(1,3));
     switch(sorteio) {
           case 1: obstaculo1 = createSprite(810, Math.round(random(250, 50)), 20, 50); obstaculo1.addAnimation('obs1_img', obstaculo1_image); obstaculo1.addImage('obs1_die', obstaculo1_die);
-                  obstaculo1.velocityX = -(3 + pontuacao/100); obstaculo1.scale = 1; grupoObstaculo1.add(obstaculo1);
+                  obstaculo1.velocityX = -(8); obstaculo1.scale = 1; grupoObstaculo1.add(obstaculo1); obstaculo1.lifetime = 1000;
         break;
-          case 2: obstaculo2 = createSprite(810, Math.round(random(250, 50)), 20, 50); obstaculo2.addAnimation('obs2_img', obstaculo2_image); obstaculo2.addImage('obs2_die', obstaculo2_die); obstaculo2.velocityX = -(2 + pontuacao/100); obstaculo2.lifetime = 415; grupoObstaculo2.add(obstaculo2); obstaculo2.scale = 0.06;
+          case 2: obstaculo2 = createSprite(810, Math.round(random(250, 50)), 20, 50); obstaculo2.addAnimation('obs2_img', obstaculo2_image); obstaculo2.addImage('obs2_die', obstaculo2_die); obstaculo2.velocityX = -(8); obstaculo2.lifetime = 1000; grupoObstaculo2.add(obstaculo2); obstaculo2.scale = 0.06;
         break;
-        case 3: obstaculo3 = createSprite(810, Math.round(random(250, 50)), 20, 50); obstaculo3.addAnimation('obs3_img', obstaculo3_image); obstaculo3.addImage('obs3_die', obstaculo3_die); obstaculo3.velocityX = -(4 + pontuacao/100); obstaculo3.lifetime = 212; obstaculo3.scale = 0.06; grupoObstaculo3.add(obstaculo3);
+        case 3: obstaculo3 = createSprite(810, Math.round(random(250, 50)), 20, 50); obstaculo3.addAnimation('obs3_img', obstaculo3_image); obstaculo3.addImage('obs3_die', obstaculo3_die); obstaculo3.velocityX = -(8); obstaculo3.lifetime = 1000; obstaculo3.scale = 0.06; grupoObstaculo3.add(obstaculo3);
         break;
     }
   }
